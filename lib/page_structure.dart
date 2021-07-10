@@ -36,7 +36,7 @@ class PageStructure extends StatelessWidget {
       alignment: Alignment.center,
       color: Colors.white,
       child:
-          Text("Test aja si"),
+          Text("y"),
     );
 
     return PlatformScaffold(

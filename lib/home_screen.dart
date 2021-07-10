@@ -27,7 +27,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return ZoomDrawer(
       controller: _drawerController,
-      style: DrawerStyle.Style7,
+      style: DrawerStyle.Style2,
       menuScreen: MenuScreen(
         HomeScreen.mainMenu,
         callback: _updatePage,
