@@ -27,7 +27,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return ZoomDrawer(
       controller: _drawerController,
-      style: DrawerStyle.Style2,
+      style: DrawerStyle.Style1,
       menuScreen: MenuScreen(
         HomeScreen.mainMenu,
         callback: _updatePage,
@@ -60,7 +60,6 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
-    final rtl = ZoomDrawer.isRTL();
     return ValueListenableBuilder<DrawerState>(
       valueListenable: ZoomDrawer.of(context)!.stateNotifier!,
       builder: (context, state, child) {
@@ -72,9 +71,7 @@ class _MainScreenState extends State<MainScreen> {
       child: GestureDetector(
         child: PageStructure(),
         onPanUpdate: (details) {
-          if (details.delta.dx < 6 && !rtl || details.delta.dx < -6 && rtl) {
-            ZoomDrawer.of(context)!.toggle();
-          }
+          ZoomDrawer.of(context)!.open();
         },
       ),
     );

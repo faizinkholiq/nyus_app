@@ -29,7 +29,6 @@ class PageStructure extends StatelessWidget {
   Widget build(BuildContext context) {
     // ignore: deprecated_member_use
     final color = Theme.of(context).accentColor;
-    final angle = ZoomDrawer.isRTL() ? 180 * pi / 180 : 0.0;
     final _currentPage =
         context.select<MenuProvider, int>((provider) => provider.currentPage);
     final container = Container(
@@ -47,16 +46,14 @@ class PageStructure extends StatelessWidget {
         title: PlatformText(
           HomeScreen.mainMenu[_currentPage].title,
         ),
-        leading: Transform.rotate(
-          angle: angle,
-          child: PlatformIconButton(
-            icon: Icon(
-              Icons.menu,
-            ),
-            onPressed: () {
-              ZoomDrawer.of(context)!.toggle();
-            },
+        leading: PlatformIconButton(
+          icon: Icon(
+            Icons.menu,
           ),
+          onPressed: () {
+            print("click the menu");
+            ZoomDrawer.of(context)!.toggle();
+          },
         ),
         trailingActions: actions,
       ),
