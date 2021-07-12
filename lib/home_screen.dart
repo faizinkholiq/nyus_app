@@ -7,11 +7,10 @@ import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
   static List<MenuItem> mainMenu = [
-    MenuItem("payment", Icons.payment, 0),
-    MenuItem("promos", Icons.card_giftcard, 1),
-    MenuItem("notifications", Icons.notifications, 2),
-    MenuItem("help", Icons.help, 3),
-    MenuItem("about_us", Icons.info_outline, 4),
+    MenuItem("Home", Icons.home, 0),
+    MenuItem("Search", Icons.search, 1),
+    MenuItem("Headline", Icons.map_outlined, 2),
+    MenuItem("Profile", Icons.person, 3),
   ];
 
   @override
@@ -35,12 +34,12 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       mainScreen: MainScreen(),
       borderRadius: 24.0,
-//      showShadow: true,
+    //  showShadow: true,
       angle: 0.0,
       mainScreenScale: .1,
       slideWidth: MediaQuery.of(context).size.width * 0.65,
       isRtl: false,
-      clipMainScreen: false,
+      // clipMainScreen: false,
       // openCurve: Curves.fastOutSlowIn,
       // closeCurve: Curves.bounceIn,
     );
@@ -60,6 +59,7 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
+    final rtl = ZoomDrawer.isRTL();
     return ValueListenableBuilder<DrawerState>(
       valueListenable: ZoomDrawer.of(context)!.stateNotifier!,
       builder: (context, state, child) {
@@ -71,7 +71,11 @@ class _MainScreenState extends State<MainScreen> {
       child: GestureDetector(
         child: PageStructure(),
         onPanUpdate: (details) {
-          ZoomDrawer.of(context)!.open();
+          if (details.delta.dx > 0) {
+            ZoomDrawer.of(context)!.open();
+          }else{
+            ZoomDrawer.of(context)!.close();
+          }
         },
       ),
     );
