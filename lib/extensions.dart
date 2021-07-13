@@ -31,10 +31,10 @@ extension PlatformTargetExt on WidgetBuilder {
   Widget asPlatform(TargetPlatform platform) {
     return Builder(
       builder: (context) {
-        final p = PlatformProvider.of(context)!;
+        final p = PlatformProvider.of(context);
 
         return PlatformProvider(
-          settings: p.settings,
+          settings: p!.settings,
           initialPlatform: platform,
           builder: (context) => this(context),
         );

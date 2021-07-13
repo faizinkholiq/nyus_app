@@ -13,21 +13,70 @@ import './content_view.dart';
 import './extensions.dart';
 import 'package:flutter/widgets.dart';
 
-class PageStructure extends StatelessWidget {
-  final String? title;
-  final Widget? child;
-  final List<Widget>? actions;
-  final Color? backgroundColor;
-  final double? elevation;
+class PageStructure extends StatefulWidget {
+  final TargetPlatform platform;
 
-  const PageStructure({
-    Key? key,
-    this.title,
-    this.child,
-    this.actions,
-    this.backgroundColor,
-    this.elevation,
-  }) : super(key: key);
+  const PageStructure({Key? key, required this.platform}) : super(key: key);
+
+  @override
+  _PageStructureState createState() => _PageStructureState();
+}
+
+class _PageStructureState extends State<PageStructure> {
+  // final String? title;
+  // final Widget? child;
+  // final List<Widget>? actions;
+  // final Color? backgroundColor;
+  // final double? elevation;
+
+  // const PageStructure({
+  //   Key? key,
+  //   this.title,
+  //   this.child,
+  //   this.actions,
+  //   this.backgroundColor,
+  //   this.elevation,
+  // }) : super(key: key);
+
+  static final titles = ['Flag', 'Book'];
+  final items = (BuildContext context) => [
+        BottomNavigationBarItem(
+          label: titles[0],
+          icon: Icon(context.platformIcons.flag),
+        ),
+        BottomNavigationBarItem(
+          label: titles[1],
+          icon: Icon(context.platformIcons.book),
+        ),
+      ];
+
+  // This needs to be captured here in a stateful widget
+  late PlatformTabController tabController;
+
+  late List<Widget> tabs;
+  
+  @override
+  void initState() {
+    super.initState();
+
+    // If you want further control of the tabs have one of these
+    tabController = PlatformTabController(
+      initialIndex: 1,
+    );
+
+    tabs = [
+      ContentView(
+        0,
+        widget.platform,
+        key: ValueKey('key0'),
+      ),
+      ContentView(
+        1,
+        widget.platform,
+        key: ValueKey('key1'),
+      )
+    ];
+  }
   
   @override
   Widget build(BuildContext context) {
@@ -54,79 +103,79 @@ class PageStructure extends StatelessWidget {
     //   )
     // ];
     
-    // return PlatformTabScaffold(
-    //   iosContentPadding: true,
-    //   tabController: PlatformTabController(
-    //     initialIndex: 1,
-    //   ),
-    //   appBarBuilder: (_, index) => PlatformAppBar(
-    //     title: Text('${widget.platform.text} Page Title'),
-    //     trailingActions: <Widget>[
-    //       PlatformIconButton(
-    //         padding: EdgeInsets.zero,
-    //         icon: Icon(context.platformIcons.share),
-    //         onPressed: () {},
-    //       ),
-    //     ],
-    //     cupertino: (_, __) => CupertinoNavigationBarData(
-    //       title: Text('${titles[index]}'),
-    //     ),
-    //   ),
-    //   bodyBuilder: (context, index) => IndexedStack(
-    //     index: index,
-    //     children: tabs,
-    //   ),
-    //   items: items(context),
-    // );
-
-    return PlatformScaffold(
-      backgroundColor: Colors.transparent,
-      appBar: PlatformAppBar(
-        automaticallyImplyLeading: false,
-        material: (_, __) => MaterialAppBarData(elevation: elevation),
-        title: PlatformText(
-          HomeScreen.mainMenu[_currentPage].title,
-        ),
-        leading: PlatformIconButton(
-          icon: Icon(
-            Icons.menu,
+    return PlatformTabScaffold(
+      iosContentPadding: true,
+      tabController: PlatformTabController(
+        initialIndex: 1,
+      ),
+      appBarBuilder: (_, index) => PlatformAppBar(
+        title: Text('${widget.platform.text} Page Title'),
+        trailingActions: <Widget>[
+          PlatformIconButton(
+            padding: EdgeInsets.zero,
+            icon: Icon(context.platformIcons.share),
+            onPressed: () {},
           ),
-          onPressed: () {
-            print("click the menu");
-            ZoomDrawer.of(context)!.toggle();
-          },
+        ],
+        cupertino: (_, __) => CupertinoNavigationBarData(
+          title: Text('${titles[index]}'),
         ),
-        trailingActions: actions,
       ),
-      bottomNavBar: PlatformNavBar(
-        material: (_, __) => MaterialNavBarData(
-          backgroundColor: Colors.white,
-          showSelectedLabels: false, 
-          showUnselectedLabels: false,
-          selectedIconTheme: IconThemeData(color: Colors.black,),
-          unselectedIconTheme: IconThemeData(color: Colors.grey[400]),
-          type: BottomNavigationBarType.fixed,
-          elevation: 0,
-        ),
-        currentIndex: _currentPage,
-        itemChanged: (index) => Provider.of<MenuProvider>(context, listen: false).updateCurrentPage(index),
-        items: HomeScreen.mainMenu
-            .map(
-              (item) => BottomNavigationBarItem(
-            label: item.title,
-            icon: Icon(
-              item.icon,
-            ),
-          ),
-        ).toList(),
+      bodyBuilder: (context, index) => IndexedStack(
+        index: index,
+        children: tabs,
       ),
-      body: kIsWeb
-          ? container
-          : Platform.isAndroid
-          ? container
-          : SafeArea(
-        child: container,
-      ),
+      items: items(context),
     );
+
+    // return PlatformScaffold(
+    //   backgroundColor: Colors.transparent,
+    //   appBar: PlatformAppBar(
+    //     automaticallyImplyLeading: false,
+    //     material: (_, __) => MaterialAppBarData(elevation: elevation),
+    //     title: PlatformText(
+    //       HomeScreen.mainMenu[_currentPage].title,
+    //     ),
+    //     leading: PlatformIconButton(
+    //       icon: Icon(
+    //         Icons.menu,
+    //       ),
+    //       onPressed: () {
+    //         print("click the menu");
+    //         ZoomDrawer.of(context)!.toggle();
+    //       },
+    //     ),
+    //     trailingActions: actions,
+    //   ),
+    //   bottomNavBar: PlatformNavBar(
+    //     material: (_, __) => MaterialNavBarData(
+    //       backgroundColor: Colors.white,
+    //       showSelectedLabels: false, 
+    //       showUnselectedLabels: false,
+    //       selectedIconTheme: IconThemeData(color: Colors.black,),
+    //       unselectedIconTheme: IconThemeData(color: Colors.grey[400]),
+    //       type: BottomNavigationBarType.fixed,
+    //       elevation: 0,
+    //     ),
+    //     currentIndex: _currentPage,
+    //     itemChanged: (index) => Provider.of<MenuProvider>(context, listen: false).updateCurrentPage(index),
+    //     items: HomeScreen.mainMenu
+    //         .map(
+    //           (item) => BottomNavigationBarItem(
+    //         label: item.title,
+    //         icon: Icon(
+    //           item.icon,
+    //         ),
+    //       ),
+    //     ).toList(),
+    //   ),
+    //   body: kIsWeb
+    //       ? container
+    //       : Platform.isAndroid
+    //       ? container
+    //       : SafeArea(
+    //     child: container,
+    //   ),
+    // );
   }
 }

@@ -69,7 +69,7 @@ class _MainScreenState extends State<MainScreen> {
         );
       },
       child: GestureDetector(
-        child: PageStructure(),
+        child: PageStructure(platform: TargetPlatform.android),
         onPanUpdate: (details) {
           if (details.delta.dx > 0) {
             ZoomDrawer.of(context)!.open();
