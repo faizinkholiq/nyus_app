@@ -19,15 +19,19 @@ class MyApp extends StatelessWidget {
 
 class MyStatefulWidget extends StatefulWidget {
   const MyStatefulWidget({Key? key}) : super(key: key);
-
   @override
   State<MyStatefulWidget> createState() => _MyStatefulWidgetState();
 }
 
 class _MyStatefulWidgetState extends State<MyStatefulWidget> {
+  static List<MenuItem> mainMenu = [
+    MenuItem("Home", Icons.home, 0),
+    MenuItem("Search", Icons.search, 1),
+    MenuItem("Headline", Icons.map_outlined, 2),
+    MenuItem("Profile", Icons.person, 3),
+  ];
   int _selectedIndex = 0;
-  static const TextStyle optionStyle =
-      TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
+  static const TextStyle optionStyle = TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static const List<Widget> _widgetOptions = <Widget>[
     Text(
       'Index 0: Home',
@@ -79,4 +83,12 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
       ),
     );
   }
+}
+
+class MenuItem {
+  final String title;
+  final IconData icon;
+  final int index;
+
+  const MenuItem(this.title, this.icon, this.index);
 }
