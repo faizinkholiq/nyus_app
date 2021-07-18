@@ -33,9 +33,21 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   int _selectedIndex = 0;
   static const TextStyle optionStyle = TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static const List<Widget> _widgetOptions = <Widget>[
-    Text(
-      'Index 0: Home',
-      style: optionStyle,
+    DefaultTabController(
+      length: 3,
+      child: Scaffold(
+        // appBar: const AppBar(
+        //   bottom: ,
+        //   title: Text('Tabs Demo'),
+        // ),
+        body: TabBarView(
+          children: [
+            Icon(Icons.directions_car),
+            Icon(Icons.directions_transit),
+            Icon(Icons.directions_bike),
+          ],
+        ),
+      ),
     ),
     Text(
       'Index 1: Business',
@@ -43,6 +55,10 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
     ),
     Text(
       'Index 2: School',
+      style: optionStyle,
+    ),
+    Text(
+      'Index 3: Ye',
       style: optionStyle,
     ),
   ];
@@ -63,20 +79,21 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
         child: _widgetOptions.elementAt(_selectedIndex),
       ),
       bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
+        backgroundColor: Colors.white,
+        showSelectedLabels: false, 
+        showUnselectedLabels: false,
+        selectedIconTheme: IconThemeData(color: Colors.black,),
+        unselectedIconTheme: IconThemeData(color: Colors.grey[400]),
+        type: BottomNavigationBarType.fixed,
+        elevation: 0,
+        items: mainMenu.map(
+              (item) => BottomNavigationBarItem(
+            label: item.title,
+            icon: Icon(
+              item.icon,
+            ),
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.business),
-            label: 'Business',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.school),
-            label: 'School',
-          ),
-        ],
+        ).toList(),
         currentIndex: _selectedIndex,
         selectedItemColor: Colors.amber[800],
         onTap: _onItemTapped,
