@@ -30,25 +30,10 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
     MenuItem("Headline", Icons.map_outlined, 2),
     MenuItem("Profile", Icons.person, 3),
   ];
-  int _selectedIndex = 0;
-  static const TextStyle optionStyle = TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
-  static const List<Widget> _widgetOptions = <Widget>[
-    DefaultTabController(
-      length: 3,
-      child: Scaffold(
-        // appBar: const AppBar(
-        //   bottom: ,
-        //   title: Text('Tabs Demo'),
-        // ),
-        body: TabBarView(
-          children: [
-            Icon(Icons.directions_car),
-            Icon(Icons.directions_transit),
-            Icon(Icons.directions_bike),
-          ],
-        ),
-      ),
-    ),
+  static int _selectedIndex = 0;
+  static TextStyle optionStyle = TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
+  static List<Widget> _widgetOptions = <Widget>[
+    _HomePage(_selectedIndex),
     Text(
       'Index 1: Business',
       style: optionStyle,
@@ -72,6 +57,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         title: const Text('BottomNavigationBar Sample'),
       ),
@@ -108,4 +94,27 @@ class MenuItem {
   final int index;
 
   const MenuItem(this.title, this.icon, this.index);
+}
+
+class _HomePage extends StatelessWidget {
+  final int index;
+
+  _HomePage(this.index);
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      scrollDirection: Axis.vertical,
+      child: Column(
+        children: [
+          Center(
+            child: new Text('_HomePage, index: $index'),
+          ),
+          Center(
+            child: new Text('_HomePage, index: $index'),
+          ),
+        ],
+      ),
+    );
+  }
 }
