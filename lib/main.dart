@@ -59,7 +59,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: const Text('BottomNavigationBar Sample'),
+        title: const Text('Nyus.'),
       ),
       body: Center(
         child: _widgetOptions.elementAt(_selectedIndex),
@@ -108,10 +108,8 @@ class _HomePage extends StatelessWidget {
       child: Column(
         children: [
           Center(
-            child: new Text('_HomePage, index: $index'),
-          ),
-          Center(
-            child: new Text('_HomePage, index: $index'),
+            // child: new Text('_HomePage, index: $index'),
+            child: new Text('Good Morning, Welcome to Nyus.'),
           ),
         ],
       ),
